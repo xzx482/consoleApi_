@@ -95,8 +95,22 @@ def 设置光标位置(x,y):
 
 color /?
 '''
-l2wl=[0,4,2,6,1,5,3,7]
 def 设置颜色(文字颜色=None,背景颜色=None,默认颜色=默认颜色):
+	颜色=0
+	if 背景颜色:
+		颜色+=背景颜色*0xf
+	else:
+		颜色+=(默认颜色&0xff)-(默认颜色&0xf)
+	if 文字颜色:
+		颜色+=文字颜色
+	else:
+		颜色+=默认颜色&0xf
+
+	return w.SetConsoleTextAttribute(handle,颜色)
+
+
+l2wl=[0,4,2,6,1,5,3,7]
+def 设置颜色_lin(文字颜色=None,背景颜色=None,默认颜色=默认颜色):
 	颜色=0
 	if 背景颜色:
 		颜色+=l2wl[背景颜色]*0xf
