@@ -1,4 +1,5 @@
 import os
+import time
 def 获取屏幕宽高():
 	x,y=os.get_terminal_size()
 	return [x,y]
@@ -53,6 +54,25 @@ except:
 		'''
 			print("注意:密码会显示")
 			return input(提示文字)
+
+
+class 动画:
+	def __init__():
+		raise
+
+	def 渐退至行首(速度=.05):
+		x,y=获取光标位置()
+		for i in range(x):
+			打印("\b \b")
+			time.sleep(速度)
+	
+	def 渐打印(文字,速度=.05):
+		for i in range(len(文字)):
+			打印(文字[i])
+			time.sleep(速度)
+
+	
+
 
 
 __all__=[打印,清屏,获取光标位置,设置光标位置,设置颜色,打印彩色文字,按任意键继续,密码输入]
