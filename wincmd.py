@@ -95,17 +95,7 @@ def 设置光标位置(x,y):
 
 color /?
 '''
-def 设置颜色(文字颜色=None,背景颜色=None,默认颜色=默认颜色):
-	颜色=0
-	if 背景颜色:
-		颜色+=背景颜色*0xf
-	else:
-		颜色+=(默认颜色&0xff)-(默认颜色&0xf)
-	if 文字颜色:
-		颜色+=文字颜色
-	else:
-		颜色+=默认颜色&0xf
-
+def 设置颜色(颜色):
 	return w.SetConsoleTextAttribute(handle,颜色)
 
 
@@ -123,19 +113,12 @@ def 设置颜色_lin(文字颜色=None,背景颜色=None,默认颜色=默认颜�
 
 	return w.SetConsoleTextAttribute(handle,颜色)
 
-def 打印彩色文字(文字="",文字颜色=None,背景颜色=None):
+def 打印彩色文字(颜色,文字=""):
 	默认颜色=获取缓冲区信息()[2]
-	设置颜色(文字颜色,背景颜色,默认颜色)
+	设置颜色(颜色)
 	打印(文字)
 	w.SetConsoleTextAttribute(handle,默认颜色)
 
-def 设置样式(文字颜色=None,背景颜色=None,高亮=None,下划线=None,闪烁=None,反显=None):
-	设置颜色(文字颜色,背景颜色)
-
-def 打印多样式文字(文字="",文字颜色=None,背景颜色=None,高亮=None,下划线=None,闪烁=None,反显=None):#暂时用不到, 缩点水
-	打印彩色文字(文字,文字颜色,背景颜色)
-	#设置样式(文字颜色,背景颜色,高亮,下划线,闪烁,反显)
-	#打印(文字)
 
 def 设置缓冲区大小(x,y):
 	#缓冲区大小需不小于窗口大小
