@@ -6,21 +6,19 @@ from .cmdp import 写缓冲区, 刷新缓冲区, 打印, 获取屏幕宽高, 获
 
 
 class 获取用户输入(获取用户输入_基类):
-	def __init__(s):
-		super().__init__()
+	def 创建(s):
 		s.fd=sys.stdin.fileno()
 		s.old_settings=termios.tcgetattr(s.fd)
 		tty.setraw(sys.stdin.fileno())
 	
 
-	def __exit__(s,exc_type,exc_value,traceback):
+	def 清理(s):
 		termios.tcsetattr(s.fd,termios.TCSANOW,s.old_settings)
-		super().__exit__(exc_type,exc_value,traceback)
 
 
 def 获取光标位置():
 	with 获取用户输入() as h:
-		写缓冲区("\x1b[6n")
+		打印("\x1b[6n")
 		buf=""
 		while True:
 			buf+=h.获取输入()

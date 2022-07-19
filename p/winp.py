@@ -116,8 +116,7 @@ def 关闭():
 
 
 class 获取用户输入(获取用户输入_基类):
-	def __init__(s):
-		super().__init__()
+	def 创建(s):
 		#s.原模式=msvcrt.setmode(sys.stdin.fileno(),os.O_TEXT)
 		'''
 		s.原输出模式=ctypes.c_uint(0)
@@ -150,7 +149,7 @@ class 获取用户输入(获取用户输入_基类):
 		return msvcrt.getwch()
 		#"""
 
-	def __exit__(s,exc_type,exc_value,traceback):
+	def 清理(s):
 		'''
 		if not (
 			w.SetConsoleMode(输出句柄,s.原输出模式)
@@ -158,12 +157,11 @@ class 获取用户输入(获取用户输入_基类):
 		):
 			raise 更改终端错误("无法设置终端模式")
 		#'''
-		super().__exit__(exc_type,exc_value,traceback)
 		
 
 def 获取光标位置():
 	with 获取用户输入() as h:
-		写缓冲区("\x1b[6n")
+		打印("\x1b[6n")
 		buf=""
 		while True:
 			buf+=h.获取输入()

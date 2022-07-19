@@ -227,23 +227,33 @@ def 打印s(文本,前景色=None,背景色=None,亮前景=None,亮背景=None,�
 
 
 class 获取用户输入_基类:
-	锁=False
+	锁=0
 
 	def __init__(s):
-		if __class__.锁:
-			raise Exception("只能创建一个实例")
-		__class__.锁=True
-		写缓冲区("\x1b[?1l")#https://docs.microsoft.com/zh-cn/windows/console/console-virtual-terminal-sequences#mode-changes
+		if not __class__.锁:
+			s.创建()
+			写缓冲区("\x1b[?1l")#https://docs.microsoft.com/zh-cn/windows/console/console-virtual-terminal-sequences#mode-changes
+		__class__.锁+=1
 
+
+	def 创建(s):
 		'''
 		继承的类,
-		在 super().__init__() 之后,
+		在此处,
 		应先获取并保存终端的原始状态,
 		再对终端进行修改,
 		以便之后恢复到原来的状态.
 
 		修改后的终端,输入应不被缓冲,
 		即 用户输入一个字符 就能立即被获取.
+		'''
+	
+	def 清理(s):
+		'''
+		继承的类,
+		在此处,
+		应对终端进行修改,
+		使终端恢复到原来的状态.
 		'''
 
 	def 关闭(s):
@@ -259,12 +269,7 @@ class 获取用户输入_基类:
 		return s
 
 	def __exit__(s,exc_type,exc_value,traceback):
-		'''
-		继承的类,
-		在 super().__exit__() 之前,
-		应对终端进行修改,
-		使终端恢复到原来的状态.
-		'''
-		if __class__.锁:
-			__class__.锁=False
+		__class__.锁-=1
+		if not __class__.锁:
+			s.清理()
 		
