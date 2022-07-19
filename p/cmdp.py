@@ -179,17 +179,17 @@ e=['']
 
 @atexit.register
 def 退出时返回主缓冲区():
-	if 已启用备用缓冲区:
-		设置备用缓冲区(0)
 	if e[0]:
 		print(e[0])
 		if e[1]:
 			input('发生异常, 按回车键退出')
+	if 已启用备用缓冲区:
+		设置备用缓冲区(0)
 
 
 def excepthook(exc_type, value, tb):
 		e[0]=''
-		e[1]=exc_type not in (KeyboardInterrupt, SystemExit)
+		e.append(exc_type not in (KeyboardInterrupt, SystemExit))
 		for line in 回溯.TracebackException(
 			type(value), value, tb).format(chain=True):
 			e[0]+=line
