@@ -22,9 +22,15 @@ def 获取光标位置():
 		buf=""
 		while True:
 			buf+=h.获取输入()
-			if buf[-1]=="R":
+			if buf[-1]=="R":#如果有用户恰好按了R, 则会引发错误, 未找到修复方法
 				break
+			if len(buf)>64:
+				buf=buf[buf.rfind("\x1b["):]
 	x,y=1,1
+	buf_=buf.rfind("\x1b[")
+	if buf_<0:
+		Exception("无法获取光标位置")
+	buf=buf[buf_:]
 	if buf[:2]=="\x1b[" and buf[-1]=="R":
 		buf=buf[2:-1].split(";")
 		x,y=int(buf[1])-1,int(buf[0])-1
