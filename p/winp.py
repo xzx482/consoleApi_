@@ -120,7 +120,15 @@ def 关闭():
 
 class 获取用户输入(获取用户输入_基类):
 	def 创建(s):
-		#s.原模式=msvcrt.setmode(sys.stdin.fileno(),os.O_TEXT)
+		# 原本想用 虚拟终端序列 来实现 (虚拟终端序列_查询状态:https://docs.microsoft.com/zh-cn/windows/console/console-virtual-terminal-sequences#query-state)
+		# 但是虚拟终端总是在输入大量字符后失效 (具体表现为
+		#		执行  w.SetConsoleMode(输入句柄,ENABLE_VIRTUAL_TERMINAL_INPUT)  后, 输入的字符不应显示,
+		# 		但一通乱按或长按按键后, 按方向键等控制键会在输出终端中显示奇怪的字符,且SetConsoleMode失效,控制台可能崩溃;
+		#
+		#		即使慢慢地输入可以解决, 那么如果在cmd.exe中执行获取光标位置, 将无论如何都不能得到其返回的值, 结束python后才会看到要获取的值显示在终端中
+		# )
+		# 最终放弃了 虚拟终端序列 的大一统, 改用 msvcrt.getwch
+		# 若有方法能够大一统, 可以提交 Pull request
 		'''
 		s.原输出模式=ctypes.c_uint(0)
 		s.原输入模式=ctypes.c_uint(0)
